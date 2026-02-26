@@ -1,147 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Gestion des Catégories</title>
-    <!-- Google Font pour un style moderne -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* Style global */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 0;
-        }
+<%@ taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
+<d:set var="pageTitle" value="Gestion des Catégories" />
 
-        h1 {
-            text-align: center;
-            color: #5D4037; /* marron foncé */
-            margin-bottom: 30px;
-        }
-
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #BCAAA4; /* marron clair */
-            color: #fff;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #E0F7FA; /* bleu clair sur hover */
-        }
-
-        /* Boutons */
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .btn-add {
-            background-color: #5D4037; /* marron foncé */
-            color: #fff;
-            margin-bottom: 20px;
-        }
-
-        .btn-add:hover {
-            background-color: #4E342E;
-        }
-
-        .btn-edit {
-            background-color: #81D4FA; /* bleu clair */
-            color: #000;
-        }
-
-        .btn-edit:hover {
-            background-color: #4FC3F7;
-        }
-
-        .btn-delete {
-            background-color: #EF9A9A; /* rouge clair */
-            color: #000;
-        }
-
-        .btn-delete:hover {
-            background-color: #E57373;
-        }
-
-        /* Formulaire modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 12px;
-            width: 400px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: #5D4037;
-        }
-
-        .modal-footer {
-            text-align: right;
-        }
-
-        .modal-footer .btn {
-            margin-left: 10px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 12px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-    </style>
+<jsp:include page="../header.jsp" />
     <script>
         function openModal(mode, id, name) {
             const modal = document.getElementById("modalForm");
@@ -217,5 +81,4 @@
     </div>
 </div>
 
-</body>
-</html>
+<jsp:include page="../footer.jsp" />
