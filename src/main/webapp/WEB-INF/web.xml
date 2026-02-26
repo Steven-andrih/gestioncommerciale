@@ -1,6 +1,9 @@
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          version="6.0">
 
+
+	<!-- Authentification -->
+	
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>minierp.controller.LoginServlet</servlet-class>
@@ -19,6 +22,17 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    
+	<!-- Categorie -->
+        <servlet>
+        <servlet-name>CategorieServlet</servlet-name>
+        <servlet-class>minierp.controller.CategorieServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CategorieServlet</servlet-name>
+        <url-pattern>/CategorieServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>

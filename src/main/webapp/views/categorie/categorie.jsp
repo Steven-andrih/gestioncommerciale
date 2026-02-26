@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page session="true" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -146,7 +147,7 @@
             const modal = document.getElementById("modalForm");
             modal.style.display = "block";
             document.getElementById("modalTitle").innerText = mode === 'add' ? "Ajouter une Catégorie" : "Modifier la Catégorie";
-            document.getElementById("categorieName").value = name || "";
+            document.getElementById("nomCategorie").value = name || "";
             document.getElementById("categorieId").value = id || "";
         }
 
@@ -177,32 +178,23 @@
             </tr>
         </thead>
         <tbody>
-            <%-- Exemple statique, tu peux remplacer par une boucle JSTL pour les données réelles --%>
-            <tr>
-                <td>1</td>
-                <td>Électronique</td>
-                <td>
-                    <button class="btn btn-edit" onclick="openModal('edit', 1, 'Électronique')">Modifier</button>
-                    <button class="btn btn-delete">Supprimer</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Vêtements</td>
-                <td>
-                    <button class="btn btn-edit" onclick="openModal('edit', 2, 'Vêtements')">Modifier</button>
-                    <button class="btn btn-delete">Supprimer</button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Alimentation</td>
-                <td>
-                    <button class="btn btn-edit" onclick="openModal('edit', 3, 'Alimentation')">Modifier</button>
-                    <button class="btn btn-delete">Supprimer</button>
-                </td>
-            </tr>
-        </tbody>
+<c:forEach var="c" items="${categories}">
+    <tr>
+        <td>${c.id}</td>
+        <td>${c.nomCategorie}</td>
+        <td>
+            <button class="btn btn-edit"
+                onclick="openModal('edit', '${c.id}', '${c.nomCategorie}')">
+                Modifier
+            </button>
+
+            <a href="${pageContext.request.contextPath}/CategorieServlet?action=delete&id=${c.id}">
+                <button class="btn btn-delete">Supprimer</button>
+            </a>
+        </td>
+    </tr>
+</c:forEach>
+</tbody>
     </table>
 </div>
 
@@ -212,10 +204,10 @@
         <div class="modal-header">
             <h2 id="modalTitle">Ajouter une Catégorie</h2>
         </div>
-        <form action="CategorieServlet" method="post">
+        <form action="${pageContext.request.contextPath}/CategorieServlet" method="post">
             <input type="hidden" id="categorieId" name="id" />
-            <label for="categorieName">Nom :</label>
-            <input type="text" id="categorieName" name="name" placeholder="Nom de la catégorie" required />
+            <label for="nomCategorie">Nom :</label>
+            <input type="text" id="nomCategorie" name="nomCategorie" placeholder="Nom de la catégorie" required />
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-delete" onclick="closeModal()">Annuler</button>
