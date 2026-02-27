@@ -11,10 +11,10 @@ import minierp.util.JPAUtil;
 
 public class ProduitDAOImpl implements ProduitDAO {
 
-    EntityManager em = JPAUtil.getEntityManager();
-
     @Override
     public Produit save(Produit produit) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             em.persist(produit);
@@ -28,6 +28,8 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public Produit update(Produit produit) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             produit = em.merge(produit);
@@ -43,6 +45,8 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public void delete(Long id) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             Produit p = em.find(Produit.class, id);
@@ -57,11 +61,15 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public Produit findById(Long id) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         return em.find(Produit.class, id);
     }
 
     @Override
     public List<Produit> findAll() {
+        EntityManager em = JPAUtil.getEntityManager();
+
         TypedQuery<Produit> query = em.createQuery("SELECT p FROM Produit p", Produit.class);
         return query.getResultList();
     }

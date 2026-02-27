@@ -10,10 +10,11 @@ import minierp.util.JPAUtil;
 
 public class CommandeDAOImpl implements CommandeDAO {
 
-    EntityManager em = JPAUtil.getEntityManager();
 
     @Override
     public Commande save(Commande commande) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             em.persist(commande);
@@ -27,6 +28,8 @@ public class CommandeDAOImpl implements CommandeDAO {
 
     @Override
     public Commande update(Commande commande) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             commande = em.merge(commande);
@@ -40,6 +43,8 @@ public class CommandeDAOImpl implements CommandeDAO {
 
     @Override
     public void delete(Long id) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
             Commande c = em.find(Commande.class, id);
@@ -54,17 +59,23 @@ public class CommandeDAOImpl implements CommandeDAO {
 
     @Override
     public Commande findById(Long id) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         return em.find(Commande.class, id);
     }
 
     @Override
     public List<Commande> findAll() {
+        EntityManager em = JPAUtil.getEntityManager();
+
         TypedQuery<Commande> query = em.createQuery("SELECT c FROM Commande c", Commande.class);
         return query.getResultList();
     }
 
     @Override
     public List<Commande> findByUserId(Long userId) {
+        EntityManager em = JPAUtil.getEntityManager();
+
         TypedQuery<Commande> query = em.createQuery(
             "SELECT c FROM Commande c WHERE c.user.id = :id", Commande.class);
         query.setParameter("id", userId);

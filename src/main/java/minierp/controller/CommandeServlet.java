@@ -3,20 +3,16 @@ package minierp.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import minierp.model.Commande;
 import minierp.model.User;
 import minierp.service.CommandeService;
-import minierp.service.UserService;
 import minierp.service.impl.CommandeServiceImpl;
-import minierp.service.impl.UserServiceImpl;
 
 public class CommandeServlet extends HttpServlet {
 
     private CommandeService commandeService = new CommandeServiceImpl();
-    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,41 +28,47 @@ public class CommandeServlet extends HttpServlet {
         }
 
         List<Commande> commandes = commandeService.findAll();
-//        List<User> users = userService.findAll();
-
         request.setAttribute("commandes", commandes);
-//        request.setAttribute("users", users);
-
-        request.getRequestDispatcher("views/commande/commande.jsp")
-               .forward(request, response);
+        request.getRequestDispatcher("views/commande/commande.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Récupérer l'utilisateur connecté depuis la session
-        User connectedUser = (User) request.getSession().getAttribute("user");
-        if (connectedUser == null) {
-            response.sendRedirect("login.jsp"); // Pas connecté
+        String idStr = request.getParameter("id");
+
+        HttpSession session = request.getSession();
+        User userConnecte = (User) session.getAttribute("userConnecte");
+
+        if (userConnecte == null) {
+            response.sendRedirect(request.getContextPath() + "/views/login.jsp");
             return;
         }
 
-        String id = request.getParameter("id");
-        String etat = request.getParameter("etat");
-        double montantTotal = Double.parseDouble(request.getParameter("montantTotal"));
-        String nomClient = request.getParameter("nomClient"); // peut garder si tu veux saisir le client réel
+        Commande commande;
+        if (idStr == null || idStr.isEmpty()) {
+            // Création nouvelle commande
+            String nomClient = request.getParameter("nomClient"); // <-- Récupère le nom du client
+            commande = new Commande();
+            commande.setUser(userConnecte);        // commercial connecté
+            commande.setNomClient(nomClient);      // set nom client
+            commande.setEtat("en_traitement");
 
-        Commande commande = new Commande(connectedUser, etat, montantTotal, nomClient);
-        commande.setDateHeure(LocalDateTime.now()); // <-- ici
-
-        if (id == null || id.isEmpty()) {
             commandeService.save(commande);
-        } else {
-            commande.setId(Long.parseLong(id));
-            commandeService.update(commande);
-        }
 
-        response.sendRedirect("CommandeServlet");
+            // Redirection vers ArticleServlet pour ajouter les articles
+            response.sendRedirect(request.getContextPath() + "/ArticleServlet?idCommande=" + commande.getId());
+        } else {
+            // Modification d'une commande existante (changer l'état)
+            Long id = Long.parseLong(idStr);
+            commande = commandeService.findById(id);
+            if (commande != null) {
+                String etat = request.getParameter("etat");
+                commande.setEtat(etat);
+                commandeService.update(commande);
+            }
+            response.sendRedirect("CommandeServlet");
+        }
     }
 }

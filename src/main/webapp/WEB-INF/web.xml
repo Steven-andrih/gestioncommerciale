@@ -1,7 +1,10 @@
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          version="6.0">
 
-
+	<!-- Index -->
+    <welcome-file-list>
+        <welcome-file>LoginServlet</welcome-file>
+    </welcome-file-list>
 	<!-- Authentification -->
 	
     <servlet>
@@ -66,6 +69,17 @@
     <servlet-mapping>
         <servlet-name>CommandeServlet</servlet-name>
         <url-pattern>/CommandeServlet</url-pattern>
+    </servlet-mapping>
+    
+              <!-- Article -->
+    <servlet>
+        <servlet-name>ArticleServlet</servlet-name>
+        <servlet-class>minierp.controller.ArticleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ArticleServlet</servlet-name>
+        <url-pattern>/ArticleServlet</url-pattern>
     </servlet-mapping>
 
 </web-app>
