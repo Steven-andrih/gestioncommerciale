@@ -56,5 +56,16 @@
         <servlet-name>ApprovisionnementServlet</servlet-name>
         <url-pattern>/ApprovisionnementServlet</url-pattern>
     </servlet-mapping>
+    
+            <!-- Commande -->
+    <servlet>
+        <servlet-name>CommandeServlet</servlet-name>
+        <servlet-class>minierp.controller.CommandeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CommandeServlet</servlet-name>
+        <url-pattern>/CommandeServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>
