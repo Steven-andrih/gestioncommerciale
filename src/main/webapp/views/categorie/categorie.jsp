@@ -1,83 +1,91 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<d:set var="pageTitle" value="Gestion des Catégories" />
 
 <jsp:include page="../header.jsp" />
-    <script>
-        function openModal(mode, id, name) {
-            const modal = document.getElementById("modalForm");
-            modal.style.display = "block";
-            document.getElementById("modalTitle").innerText = mode === 'add' ? "Ajouter une Catégorie" : "Modifier la Catégorie";
-            document.getElementById("nomCategorie").value = name || "";
-            document.getElementById("categorieId").value = id || "";
-        }
 
-        function closeModal() {
-            document.getElementById("modalForm").style.display = "none";
-        }
+<div class="container mt-5">
 
-        window.onclick = function(event) {
-            const modal = document.getElementById("modalForm");
-            if(event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
-</head>
-<body>
-<div class="container">
-    <h1>Gestion des Catégories</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestion des Catégories</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categorieModal">
+            + Ajouter
+        </button>
+    </div>
 
-    <button class="btn btn-add" onclick="openModal('add')">+ Ajouter une catégorie</button>
+    <div class="card shadow">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="c" items="${categories}">
+                        <tr>
+                            <td>${c.id}</td>
+                            <td>${c.nomCategorie}</td>
+                            <td class="text-end">
+                                <button 
+                                    class="btn btn-sm btn-warning"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#categorieModal"
+                                    onclick="document.getElementById('id').value='${c.id}';
+                                             document.getElementById('nom').value='${c.nomCategorie}'">
+                                    Modifier
+                                </button>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom de la catégorie</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-<c:forEach var="c" items="${categories}">
-    <tr>
-        <td>${c.id}</td>
-        <td>${c.nomCategorie}</td>
-        <td>
-            <button class="btn btn-edit"
-                onclick="openModal('edit', '${c.id}', '${c.nomCategorie}')">
-                Modifier
-            </button>
+                                <a href="${pageContext.request.contextPath}/CategorieServlet?action=delete&id=${c.id}" 
+                                   class="btn btn-sm btn-danger">
+                                    Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            <a href="${pageContext.request.contextPath}/CategorieServlet?action=delete&id=${c.id}">
-                <button class="btn btn-delete">Supprimer</button>
-            </a>
-        </td>
-    </tr>
-</c:forEach>
-</tbody>
-    </table>
 </div>
 
-<!-- Modal pour Ajouter / Modifier -->
-<div id="modalForm" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modalTitle">Ajouter une Catégorie</h2>
-        </div>
-        <form action="${pageContext.request.contextPath}/CategorieServlet" method="post">
-            <input type="hidden" id="categorieId" name="id" />
-            <label for="nomCategorie">Nom :</label>
-            <input type="text" id="nomCategorie" name="nomCategorie" placeholder="Nom de la catégorie" required />
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="categorieModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-delete" onclick="closeModal()">Annuler</button>
-                <button type="submit" class="btn btn-add">Enregistrer</button>
+            <div class="modal-header">
+                <h5 class="modal-title">Catégorie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-        </form>
+
+            <form action="${pageContext.request.contextPath}/CategorieServlet" method="post">
+                <div class="modal-body">
+
+                    <input type="hidden" id="id" name="id">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nom de la catégorie</label>
+                        <input type="text" id="nom" name="nomCategorie" 
+                               class="form-control" 
+                               placeholder="Nom..." required>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+
+        </div>
     </div>
 </div>
 

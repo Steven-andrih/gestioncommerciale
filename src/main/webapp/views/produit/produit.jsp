@@ -1,176 +1,132 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../header.jsp" />
 
-<div class="container">
-    <h1>Gestion des Produits</h1>
+<div class="container mt-5">
 
-    <!-- ===== FORMULAIRE D'AJOUT ===== -->
-    <c:if test="${param.id == null}">
-        <h2>Ajouter un produit</h2>
-        <form action="${pageContext.request.contextPath}/ProduitServlet" method="post">
-            <label>Nom :</label>
-            <input type="text" name="nomProduit" required />
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestion des Produits</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#produitModal">
+            + Ajouter
+        </button>
+    </div>
 
-            <label>Catégorie :</label>
-            <select name="idCategorie" required>
-                <c:forEach var="c" items="${categories}">
-                    <option value="${c.id}">${c.nomCategorie}</option>
-                </c:forEach>
-            </select>
+    <div class="card shadow">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                        <th>Unité</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="p" items="${produits}">
+                        <tr>
+                            <td>${p.id}</td>
+                            <td>${p.nomProduit}</td>
+                            <td>${p.categorie.nomCategorie}</td>
+                            <td>${p.quantite}</td>
+                            <td>${p.prixUnite}</td>
+                            <td>${p.unite}</td>
+                            <td class="text-end">
 
-            <label>Quantité :</label>
-            <input type="number" name="quantite" />
+                                <button class="btn btn-sm btn-warning"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#produitModal"
+                                    onclick="
+                                        document.getElementById('id').value='${p.id}';
+                                        document.getElementById('nom').value='${p.nomProduit}';
+                                        document.getElementById('categorie').value='${p.categorie.id}';
+                                        document.getElementById('quantite').value='${p.quantite}';
+                                        document.getElementById('prix').value='${p.prixUnite}';
+                                        document.getElementById('unite').value='${p.unite}';
+                                    ">
+                                    Modifier
+                                </button>
 
-            <label>Prix :</label>
-            <input type="number" step="0.01" name="prixUnite" required />
+                                <a href="${pageContext.request.contextPath}/ProduitServlet?action=delete&id=${p.id}"
+                                   class="btn btn-sm btn-danger">
+                                    Supprimer
+                                </a>
 
-            <label>Unité :</label>
-            <select name="unite">
-                <option value="KG">KG</option>
-                <option value="Unité">Unité</option>
-            </select>
-
-            <br><br>
-            <button type="submit" class="btn btn-add">Enregistrer</button>
-        </form>
-    </c:if>
-
-    <hr>
-
-    <!-- ===== LISTE DES PRODUITS ===== -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th><th>Nom</th><th>Catégorie</th>
-                <th>Quantité</th><th>Prix</th><th>Unité</th><th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="p" items="${produits}">
-                <tr>
-                    <td>${p.id}</td>
-                    <td>${p.nomProduit}</td>
-                    <td>${p.categorie.nomCategorie}</td>
-                    <td>${p.quantite}</td>
-                    <td>${p.prixUnite}</td>
-                    <td>${p.unite}</td>
-                    <td>
-                        <!-- Modifier -->
-                        <a href="?id=${p.id}
-                            &nomProduit=${p.nomProduit}
-                            &idCategorie=${p.categorie.id}
-                            &quantite=${p.quantite}
-                            &prixUnite=${p.prixUnite}
-                            &unite=${p.unite}">
-                            <button type="button" class="btn btn-edit">Modifier</button>
-                        </a>
-
-                        <!-- Supprimer -->
-                        <a href="ProduitServlet?action=delete&id=${p.id}">
-                            <button type="button" class="btn btn-delete">Supprimer</button>
-                        </a>
-                    </td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-
-    <!-- ===== MODALE MODIFICATION ===== -->
-    <c:if test="${param.id != null}">
-        <style>
-/* Fond semi-transparent */
-.modal-background {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.4);
-    z-index: 1000; /* au-dessus du reste */
-}
-
-/* Boîte modale */
-.modal {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    z-index: 1001; /* au-dessus du fond */
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    max-width: 400px;
-    width: 90%;
-}
-
-/* Style général */
-.modal h2 {
-    margin-top: 0;
-}
-
-.modal label {
-    display: block;
-    margin-top: 10px;
-}
-
-.modal input, .modal select {
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
-}
-
-.modal button {
-    margin-top: 15px;
-    width: 100%;
-    padding: 8px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.modal button:hover {
-    background-color: #45a049;
-}
-</style>
-
-        <div class="modal-background"></div>
-        <div class="modal">
-            <h2>Modifier le produit</h2>
-            <form action="${pageContext.request.contextPath}/ProduitServlet" method="post">
-                <input type="hidden" name="id" value="${param.id}" />
-
-                <label>Nom :</label>
-                <input type="text" name="nomProduit" value="${param.nomProduit}" required />
-
-                <label>Catégorie :</label>
-<select name="idCategorie" required>
-    <c:forEach var="c" items="${categories}">
-        <option value="${c.id}"
-            <c:if test="${param.idCategorie == c.id.toString()}">selected</c:if>>
-            ${c.nomCategorie}
-        </option>
-    </c:forEach>
-</select>
-
-                <label>Quantité :</label>
-                <input type="number" name="quantite" value="${param.quantite}" />
-
-                <label>Prix :</label>
-                <input type="number" step="0.01" name="prixUnite" value="${param.prixUnite}" required />
-
-                <label>Unité :</label>
-                <select name="unite">
-                    <option value="KG" <c:if test="${param.unite == 'KG'}">selected</c:if>>KG</option>
-                    <option value="Unité" <c:if test="${param.unite == 'Unité'}">selected</c:if>>Unité</option>
-                </select>
-
-                <br><br>
-                <button type="submit" class="btn btn-add">Enregistrer</button>
-            </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
-    </c:if>
+    </div>
+
+</div>
+
+<!-- MODAL BOOTSTRAP -->
+<div class="modal fade" id="produitModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Produit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="${pageContext.request.contextPath}/ProduitServlet" method="post">
+                <div class="modal-body">
+
+                    <input type="hidden" id="id" name="id">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nom</label>
+                        <input type="text" id="nom" name="nomProduit" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Catégorie</label>
+                        <select id="categorie" name="idCategorie" class="form-select" required>
+                            <c:forEach var="c" items="${categories}">
+                                <option value="${c.id}">${c.nomCategorie}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Quantité</label>
+                        <input value="0" type="number" id="quantite" name="quantite" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Prix</label>
+                        <input type="number" step="0.01" id="prix" name="prixUnite" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Unité</label>
+                        <select id="unite" name="unite" class="form-select">
+                            <option value="KG">KG</option>
+                            <option value="Unité">Unité</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 </div>
 
 <jsp:include page="../footer.jsp" />
