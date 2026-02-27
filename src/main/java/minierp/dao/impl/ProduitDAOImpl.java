@@ -32,6 +32,8 @@ public class ProduitDAOImpl implements ProduitDAO {
             em.getTransaction().begin();
             produit = em.merge(produit);
             em.getTransaction().commit();
+            System.out.println("Mis à jour éffectuer !");
+
         } catch (Exception e) {
             em.getTransaction().rollback();
             e.printStackTrace();

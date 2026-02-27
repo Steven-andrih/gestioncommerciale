@@ -31,7 +31,7 @@ public class ProduitServlet extends HttpServlet {
         }
 
         List<Produit> produits = produitService.findAll();
-        List<Categorie> categories = categorieService.findAll(); // pour remplir la liste déroulante
+        List<Categorie> categories = categorieService.findAll(); 
 
         request.setAttribute("produits", produits);
         request.setAttribute("categories", categories);

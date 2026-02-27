@@ -45,5 +45,16 @@
         <servlet-name>ProduitServlet</servlet-name>
         <url-pattern>/ProduitServlet</url-pattern>
     </servlet-mapping>
+    
+        <!-- Approvisionnement -->
+    <servlet>
+        <servlet-name>ApprovisionnementServlet</servlet-name>
+        <servlet-class>minierp.controller.ApprovisionnementServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ApprovisionnementServlet</servlet-name>
+        <url-pattern>/ApprovisionnementServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>
