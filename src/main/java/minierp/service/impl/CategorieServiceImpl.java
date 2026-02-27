@@ -36,4 +36,9 @@ public class CategorieServiceImpl implements CategorieService {
 	public List<Categorie> findAll() {
 		return dao.findAll();
 	}
+
+	@Override
+	public Categorie findById(Long id) {
+		return dao.findById(id);
+	}
 }

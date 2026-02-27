@@ -35,4 +35,15 @@
         <url-pattern>/CategorieServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- Produit -->
+    <servlet>
+        <servlet-name>ProduitServlet</servlet-name>
+        <servlet-class>minierp.controller.ProduitServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProduitServlet</servlet-name>
+        <url-pattern>/ProduitServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
