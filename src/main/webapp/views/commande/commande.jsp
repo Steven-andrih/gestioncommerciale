@@ -52,6 +52,11 @@
                                    class="btn btn-sm btn-danger">
                                    Supprimer
                                 </a>
+                                                                
+                                <a href="${pageContext.request.contextPath}/ArticleServlet?idCommande=${c.id}"
+                                   class="btn btn-sm btn-dark">
+                                   Voir detail
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

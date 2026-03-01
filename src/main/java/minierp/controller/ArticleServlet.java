@@ -26,8 +26,27 @@ public class ArticleServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String idCommandeStr = request.getParameter("idCommande");
-        if (idCommandeStr == null) {
-            response.sendRedirect("CommandeServlet");
+        String action = request.getParameter("action");
+
+        // if (idCommandeStr == null) {
+        // response.sendRedirect("CommandeServlet");
+        // return;
+        // }
+
+        if ("delete".equals(action)) {
+            Long id = Long.parseLong(request.getParameter("id"));
+            Long commande_id = Long.parseLong(request.getParameter("commande_id"));
+
+            Commande commande = commandeService.findById(commande_id);
+            Article article = articleService.findById(id);
+
+            commande.setMontantTotal(commande.getMontantTotal() - article.getMontantArticle());
+
+            commandeService.update(commande);
+            articleService.delete(id);
+
+            System.out.println("Article N°:" + id + " supprimer !");
+            response.sendRedirect(request.getContextPath() + "/ArticleServlet?idCommande=" + commande_id);
             return;
         }
 
@@ -51,6 +70,9 @@ public class ArticleServlet extends HttpServlet {
         String annulerCommande = request.getParameter("annulerCommande");
         String idCommandeStr = request.getParameter("idCommande");
 
+        String idArticleStr = request.getParameter("idArticle");
+        String modifier = request.getParameter("modifier");
+
         if (idCommandeStr == null) {
             response.sendRedirect("CommandeServlet");
             return;
@@ -65,11 +87,31 @@ public class ArticleServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/CommandeServlet");
             return;
         }
-        
+
         if ("true".equals(annulerCommande)) {
             commande.setEtat("annuler");
             commandeService.update(commande);
             response.sendRedirect(request.getContextPath() + "/CommandeServlet");
+            return;
+        }
+
+        if ("true".equals(modifier)) {
+            Long idArticle = Long.parseLong(idArticleStr);
+            double nouvelleQuantite = Double.parseDouble(request.getParameter("nouvelleQuantite"));
+            Article a = articleService.findById(idArticle);
+            Commande c = a.getCommande();
+
+            // Mise à jour qtt & Montant article
+            double ancienMontantArticle = a.getMontantArticle();
+            a.setQuantiteProduit(nouvelleQuantite);
+            articleService.update(a);
+
+            // Mise à jour montant du commande relatif à l'article
+            double newMontantArticle = a.getMontantArticle();
+            double montantNormal = c.getMontantTotal() - ancienMontantArticle + newMontantArticle;
+            c.setMontantTotal(montantNormal);
+            commandeService.update(c);
+            response.sendRedirect(request.getContextPath() + "/ArticleServlet?idCommande=" + idCommande);
             return;
         }
 
