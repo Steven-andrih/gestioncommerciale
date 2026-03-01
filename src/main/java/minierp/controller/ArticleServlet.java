@@ -84,6 +84,10 @@ public class ArticleServlet extends HttpServlet {
         if ("true".equals(validerCommande)) {
             commande.setEtat("valide");
             commandeService.update(commande);
+
+            List<Article> articles = articleService.findByCommande(idCommande);
+            produitService.normalizeProductStock(articles);
+
             response.sendRedirect(request.getContextPath() + "/CommandeServlet");
             return;
         }

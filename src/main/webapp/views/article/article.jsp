@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="isLocked" value="${commande.etat == 'valide' || commande.etat == 'annuler'}" />
+<!-- <c:set var="isLocked" value="${commande.etat == 'valide' || commande.etat == 'annuler'}" /> -->
+<c:set var="isLocked" value="${commande.etat == 'valide'}" />
 
 <jsp:include page="../header.jsp" />
 
@@ -45,7 +46,7 @@
                     <td>${a.id}</td>
                     <td>${a.produit.nomProduit}</td>
                     <td>${a.quantiteProduit}</td>
-                    <td>${a.montantArticle} €</td>
+                    <td>${a.montantArticle} Ar</td>
                     <td>
                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalModifier${a.id}" ${isLocked ? "disabled" : ""}>
                             Modifier
@@ -101,7 +102,7 @@
             <button type="submit" class="btn btn-dark" ${isLocked ? "disabled" : ""} >Annuler la commande</button>
         </form>
 
-        <a href="#" class="btn btn-primary">Facturé</a>
+        <a href="#" class="btn btn-outline-primary">Facturé</a>
     </div>
 </div>
 

@@ -19,7 +19,7 @@ public class Produit {
     @ManyToOne
     @JoinColumn(name = "id_categorie")
     private Categorie categorie;
-    
+
     private String unite;
 
     public Produit() {
@@ -72,12 +72,20 @@ public class Produit {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
-    
+
     public String getUnite() {
         return unite;
     }
 
     public void setUnite(String unite) {
         this.unite = unite;
+    }
+
+    public void subStock(double stockPrise) {
+        if (this.quantite < stockPrise) {
+            throw new RuntimeException("Stock Insuffiisante !");
+        }
+
+        this.quantite -= stockPrise;
     }
 }
