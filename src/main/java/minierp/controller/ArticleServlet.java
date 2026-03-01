@@ -48,6 +48,7 @@ public class ArticleServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String validerCommande = request.getParameter("validerCommande");
+        String annulerCommande = request.getParameter("annulerCommande");
         String idCommandeStr = request.getParameter("idCommande");
 
         if (idCommandeStr == null) {
@@ -59,8 +60,14 @@ public class ArticleServlet extends HttpServlet {
         Commande commande = commandeService.findById(idCommande);
 
         if ("true".equals(validerCommande)) {
-            // Valider la commande → changer état
             commande.setEtat("valide");
+            commandeService.update(commande);
+            response.sendRedirect(request.getContextPath() + "/CommandeServlet");
+            return;
+        }
+        
+        if ("true".equals(annulerCommande)) {
+            commande.setEtat("annuler");
             commandeService.update(commande);
             response.sendRedirect(request.getContextPath() + "/CommandeServlet");
             return;

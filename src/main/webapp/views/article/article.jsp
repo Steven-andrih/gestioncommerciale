@@ -48,11 +48,16 @@
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-end mt-3">
+    <div class="d-flex justify-content-end mt-3 ml-5">
         <form action="${pageContext.request.contextPath}/ArticleServlet" method="post">
             <input type="hidden" name="validerCommande" value="true">
             <input type="hidden" name="idCommande" value="${commande.id}">
             <button type="submit" class="btn btn-success">Valider la commande</button>
+        </form>
+        <form action="${pageContext.request.contextPath}/ArticleServlet" method="post">
+            <input type="hidden" name="annulerCommande" value="true">
+            <input type="hidden" name="idCommande" value="${commande.id}">
+            <button type="submit" class="btn btn-dark">Annuler la commande</button>
         </form>
     </div>
 
