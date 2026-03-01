@@ -51,8 +51,8 @@ public class CommandeServlet extends HttpServlet {
             // Création nouvelle commande
             String nomClient = request.getParameter("nomClient"); // <-- Récupère le nom du client
             commande = new Commande();
-            commande.setUser(userConnecte);        // commercial connecté
-            commande.setNomClient(nomClient);      // set nom client
+            commande.setUser(userConnecte); // commercial connecté
+            commande.setNomClient(nomClient); // set nom client
             commande.setEtat("en_traitement");
 
             commandeService.save(commande);
@@ -64,8 +64,8 @@ public class CommandeServlet extends HttpServlet {
             Long id = Long.parseLong(idStr);
             commande = commandeService.findById(id);
             if (commande != null) {
-                String etat = request.getParameter("etat");
-                commande.setEtat(etat);
+                String nomClient = request.getParameter("nomClient");
+                commande.setNomClient(nomClient);
                 commandeService.update(commande);
             }
             response.sendRedirect("CommandeServlet");

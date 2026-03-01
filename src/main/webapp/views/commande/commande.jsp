@@ -90,19 +90,19 @@
                     </div>
 
                     <!-- Montant total -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label">Montant Total</label>
 						<input type="number" step="0.01" id="montantTotal" name="montantTotal" class="form-control" readonly value="0">
-                    </div>
+                    </div> -->
 
                     <!-- Etat de la commande -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label">État</label>
                         <select id="etat" name="etat" class="form-select">
                             <option value="en_traitement">En traitement</option>
                             <option value="valide">Valide</option>
                         </select>
-                    </div>
+                    </div> -->
 
                     <div class="alert alert-info">
                         ⚠ La date sera automatiquement remplie.
