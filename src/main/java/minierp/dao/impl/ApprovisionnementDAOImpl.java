@@ -60,7 +60,8 @@ public class ApprovisionnementDAOImpl implements ApprovisionnementDAO {
 
     @Override
     public List<Approvisionnement> findAll() {
-        TypedQuery<Approvisionnement> query = em.createQuery("SELECT a FROM Approvisionnement a",
+        TypedQuery<Approvisionnement> query = em.createQuery(
+                "SELECT a FROM Approvisionnement a ORDER BY a.dateHeure DESC",
                 Approvisionnement.class);
         return query.getResultList();
     }
