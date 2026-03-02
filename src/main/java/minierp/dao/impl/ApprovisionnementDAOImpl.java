@@ -60,18 +60,16 @@ public class ApprovisionnementDAOImpl implements ApprovisionnementDAO {
 
     @Override
     public List<Approvisionnement> findAll() {
-        TypedQuery<Approvisionnement> query =
-                em.createQuery("SELECT a FROM Approvisionnement a", Approvisionnement.class);
+        TypedQuery<Approvisionnement> query = em.createQuery("SELECT a FROM Approvisionnement a",
+                Approvisionnement.class);
         return query.getResultList();
     }
 
     @Override
     public List<Approvisionnement> findByProduitId(Long produitId) {
-        TypedQuery<Approvisionnement> query =
-                em.createQuery(
-                    "SELECT a FROM Approvisionnement a WHERE a.produit.id = :id",
-                    Approvisionnement.class
-                );
+        TypedQuery<Approvisionnement> query = em.createQuery(
+                "SELECT a FROM Approvisionnement a WHERE a.produit.id = :id ORDER BY a.dateHeure DESC",
+                Approvisionnement.class);
         query.setParameter("id", produitId);
         return query.getResultList();
     }

@@ -131,6 +131,12 @@ public class ArticleServlet extends HttpServlet {
         article.setQuantiteProduit(quantite);
         article.setMontantArticle(produit.getPrixUnite() * quantite);
 
+        if (produit.getQuantite() < quantite) {
+            request.getSession().setAttribute("error", "Stock insuffisant ");
+            response.sendRedirect(request.getContextPath() + "/ArticleServlet?idCommande=" + idCommande);
+            return;
+        }
+
         articleService.save(article);
 
         // Mise à jour montant total de la commande

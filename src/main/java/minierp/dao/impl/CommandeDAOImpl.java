@@ -10,7 +10,6 @@ import minierp.util.JPAUtil;
 
 public class CommandeDAOImpl implements CommandeDAO {
 
-
     @Override
     public Commande save(Commande commande) {
         EntityManager em = JPAUtil.getEntityManager();
@@ -68,7 +67,8 @@ public class CommandeDAOImpl implements CommandeDAO {
     public List<Commande> findAll() {
         EntityManager em = JPAUtil.getEntityManager();
 
-        TypedQuery<Commande> query = em.createQuery("SELECT c FROM Commande c", Commande.class);
+        TypedQuery<Commande> query = em.createQuery("SELECT c FROM Commande c ORDER BY c.dateHeure DESC",
+                Commande.class);
         return query.getResultList();
     }
 
@@ -77,7 +77,7 @@ public class CommandeDAOImpl implements CommandeDAO {
         EntityManager em = JPAUtil.getEntityManager();
 
         TypedQuery<Commande> query = em.createQuery(
-            "SELECT c FROM Commande c WHERE c.user.id = :id", Commande.class);
+                "SELECT c FROM Commande c WHERE c.user.id = :id", Commande.class);
         query.setParameter("id", userId);
         return query.getResultList();
     }

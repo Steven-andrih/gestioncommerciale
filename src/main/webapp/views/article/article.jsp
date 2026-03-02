@@ -3,6 +3,8 @@
 
 <!-- <c:set var="isLocked" value="${commande.etat == 'valide' || commande.etat == 'annuler'}" /> -->
 <c:set var="isLocked" value="${commande.etat == 'valide'}" />
+<c:set var="canFacturer" value="${commande.etat == 'valide'}" />
+<c:set var="hasArticles" value="${not empty articles}" />
 
 <jsp:include page="../header.jsp" />
 
@@ -30,6 +32,19 @@
         </div>
     </form>
 
+    <c:if test="${not empty sessionScope.error}">
+    <!-- <div class="alert alert-danger">
+        ${sessionScope.error}
+    </div> -->
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>${sessionScope.error}</strong>   Desolé !.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+</c:if>
+
+<c:remove var="error" scope="session"/>
+
     <table class="table table-hover">
         <thead>
             <tr>
@@ -54,8 +69,9 @@
 
                         <a 
                         href="${pageContext.request.contextPath}/ArticleServlet?action=delete&id=${a.id}&commande_id=${a.commande.id}" 
-                        class="btn btn-sm btn-danger"
-                        ${isLocked ? "disabled" : ""}>
+                        class="btn btn-sm btn-danger ${isLocked ? 'disabled' : ''}"
+                        ${isLocked ? "disabled" : ""}
+                        aria-disabled="${isLocked}" >
                         Supprimer
                         </a>
                     </td>
@@ -94,7 +110,7 @@
         <form action="${pageContext.request.contextPath}/ArticleServlet" method="post">
             <input type="hidden" name="validerCommande" value="true">
             <input type="hidden" name="idCommande" value="${commande.id}">
-            <button type="submit" class="btn btn-success" ${isLocked ? "disabled" : ""} >Valider la commande</button>
+            <button type="submit" class="btn btn-success" ${isLocked || !hasArticles ? "disabled" : ""} >Valider la commande</button>
         </form>
         <form action="${pageContext.request.contextPath}/ArticleServlet" method="post">
             <input type="hidden" name="annulerCommande" value="true">
@@ -102,7 +118,11 @@
             <button type="submit" class="btn btn-dark" ${isLocked ? "disabled" : ""} >Annuler la commande</button>
         </form>
 
-        <a href="#" class="btn btn-outline-primary">Facturé</a>
+<a href="${pageContext.request.contextPath}/CommandeServlet?action=facture&commande_id_fac=${commande.id}" 
+   class="btn btn-outline-primary ${!canFacturer ? 'disabled' : ''}"
+   aria-disabled="${!canFacturer}">
+    Facturé
+</a>
     </div>
 </div>
 

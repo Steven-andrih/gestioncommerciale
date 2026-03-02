@@ -5,14 +5,18 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
+import minierp.model.Article;
 import minierp.model.Commande;
 import minierp.model.User;
+import minierp.service.ArticleService;
 import minierp.service.CommandeService;
+import minierp.service.impl.ArticleServiceImpl;
 import minierp.service.impl.CommandeServiceImpl;
 
 public class CommandeServlet extends HttpServlet {
 
     private CommandeService commandeService = new CommandeServiceImpl();
+    private ArticleService articleService = new ArticleServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +31,21 @@ public class CommandeServlet extends HttpServlet {
             return;
         }
 
+        if ("facture".equals(action)) {
+
+            Long commande_id_fac = Long.parseLong(request.getParameter("commande_id_fac"));
+            List<Article> articles = articleService.findByCommande(commande_id_fac);
+
+            Commande commande = commandeService.findById(commande_id_fac);
+
+            request.setAttribute("articles", articles);
+            request.setAttribute("commande", commande);
+            request.getRequestDispatcher("views/facture.jsp").forward(request, response);
+            return;
+        }
+
         List<Commande> commandes = commandeService.findAll();
+
         request.setAttribute("commandes", commandes);
         request.getRequestDispatcher("views/commande/commande.jsp").forward(request, response);
     }

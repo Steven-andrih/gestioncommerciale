@@ -83,7 +83,7 @@ public class Produit {
 
     public void subStock(double stockPrise) {
         if (this.quantite < stockPrise) {
-            throw new RuntimeException("Stock Insuffiisante !");
+            throw new RuntimeException("Stock Insuffisante !");
         }
 
         this.quantite -= stockPrise;
