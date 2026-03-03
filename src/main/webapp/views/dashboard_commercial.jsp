@@ -21,7 +21,7 @@
         <div class="col-md-9">
             <div class="card shadow">
                 <div class="card-body">
-                    <h4>Bienvenue COMMERCIAL 💼</h4>
+                    <h4>Bienvenue ${sessionScope.userConnecte.nom} 💼</h4>
                     <p>
                         Vous pouvez gérer vos commandes et ajouter des articles.
                     </p>

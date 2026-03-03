@@ -14,7 +14,7 @@
 
     <div class="card shadow">
         <div class="card-body">
-            <table class="table table-hover align-middle">
+            <table id="example" class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th>ID</th>

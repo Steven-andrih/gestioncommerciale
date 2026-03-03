@@ -30,7 +30,7 @@
         <div class="col-md-9">
             <div class="card shadow">
                 <div class="card-body">
-                    <h4>Bienvenue ADMIN 👑</h4>
+                    <h4>Bienvenue ${sessionScope.userConnecte.nom} 👑</h4>
                     <p>
                         Vous avez accès à la gestion complète du système MiniERP.
                     </p>

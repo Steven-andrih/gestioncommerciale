@@ -81,9 +81,9 @@
                     <p class="text-muted mb-1 text-uppercase small fw-bold">Émetteur</p>
                     <h5 class="fw-bold">Mini-ERP S.A.S</h5>
                     <p class="text-muted">
-                        Technopole de l'Innovation<br>
-                        Bureau 402, 75008 Paris<br>
-                        SIRET: 123 456 789 00012
+                        Nico Robin Shop<br>
+                        Bureau 402, 75008 ANTANANARIVO<br>
+                        NIF: 123 456 789 00012
                     </p>
                 </div>
                 <div class="col-md-4">
@@ -92,7 +92,7 @@
                     <p class="text-muted">
                         SARL Distribution Plus<br>
                         45 Avenue des Champs<br>
-                        69002 Lyon, France
+                        Tana Madagascar
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
@@ -141,7 +141,7 @@
         </div>
 
         <div class="card-footer bg-white p-4 border-top text-center text-muted small">
-            <p class="mb-1">Mini-ERP S.A.S au capital de 10.000 € - RCS Paris B 123 456 789</p>
+            <p class="mb-1">Mini-ERP S.A.S - RCS Tana B 123 456 789</p>
             <p class="mb-0">Merci pour votre achat ! Une question ? contact@minierp.com</p>
         </div>
     </div>
