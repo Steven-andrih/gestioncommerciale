@@ -9,7 +9,7 @@
 		
         <properties>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/mini_erp"/>
+                      value="jdbc:mysql://db:3306/mini_erp"/>
 
             <property name="jakarta.persistence.jdbc.user"
                       value="root"/>
