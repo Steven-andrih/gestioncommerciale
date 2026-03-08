@@ -1,22 +1,45 @@
+# services:
+#   # --- Le conteneur de la base de données ---
+#   db:
+#     image: mysql:8.0
+#     container_name: mysql_erp
+#     restart: always
+#     environment:
+#       MYSQL_DATABASE: mini_erp
+#       MYSQL_ROOT_PASSWORD: root123
+#     ports:
+#       - '3306:3306'
+
+#   # --- Le conteneur de ton application Java ---
+#   app:
+#     image: tomcat:10-jdk21
+#     container_name: java_app_erp
+#     depends_on:
+#       - db
+#     volumes:
+#       - ./target/gestioncommerciale.war:/usr/local/tomcat/webapps/gestioncommerciale.war
+#     ports:
+#       - '8080:8080'
+
 services:
-  # --- Le conteneur de la base de données ---
-  db:
+  mysqldb: # soloina anaty persistance
     image: mysql:8.0
     container_name: mysql_erp
     restart: always
     environment:
-      MYSQL_DATABASE: mini_erp
       MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: mini_erp
     ports:
       - '3306:3306'
-
-  # --- Le conteneur de ton application Java ---
-  app:
-    image: tomcat:10-jdk21
-    container_name: java_app_erp
-    depends_on:
-      - db
     volumes:
-      - ./target/gestioncommerciale.war:/usr/local/tomcat/webapps/gestioncommerciale.war
+      - mysql-data:/var/lib/mysql
+  tomcat:
+    build: .
+    container_name: tomcat
+    restart: always
     ports:
       - '8080:8080'
+    depends_on:
+      - mysqldb
+volumes:
+  mysql-data:
